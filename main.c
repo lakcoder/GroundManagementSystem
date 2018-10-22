@@ -1,10 +1,11 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 
 #define Nsize 30
 #define Gsize 100
 //..................STRUCTURE..................//
-	
+
 struct date
 {
 	int dd, mm, yyyy, H, M, S;
@@ -14,7 +15,8 @@ struct sport
 {
 	char name[Nsize];
 	int rate;
-	struct date d[Nsize];			//date and timings available
+	struct date d_avl[Nsize];
+	struct date d_sch[Nsize];			//date and timings available
 };
 
 struct ground
@@ -25,13 +27,16 @@ struct ground
 	struct sport games[Gsize];		//games it can hold
 }groundDB[Gsize];
 
-struct data 				
+int no_of_ground()
 {
-	char sportName[Nsize];			
-	char groundName[Nsize];
-	char city[Nsize];
-	struct date timing;
-}database[Gsize];				//database of scheduled games
+	int i=0;
+	while(groundDB[i].name[0]!='\0')
+	{
+			i++;
+	}
+	i++;
+	return(i);
+};			//total number of grounds entered till now
 
 //..Initailise the database with default values..//
 
@@ -45,37 +50,63 @@ void intialiseDB()
 		groundDB[i].state[0]='\0';
 		for(j=0; j<Gsize; j++)
 		{
-			groundDB[i].games[j].name[0]='\0';	
+			groundDB[i].games[j].name[0]='\0';
 			groundDB[i].games[j].rate=-1;
 			for(k=0; k<Nsize; k++)
-			{			
-				groundDB[i].games[j].d.dd=-1;
-				groundDB[i].games[j].d.mm=-1;
-				groundDB[i].games[j].d.yyyy=-1;
-				groundDB[i].games[j].d.H=-1;
-				groundDB[i].games[j].d.M=-1;
-				groundDB[i].games[j].d.S=-1;
+			{
+				groundDB[i].games[j].d_avl[k].dd=-1;
+				groundDB[i].games[j].d_avl[k].mm=-1;
+				groundDB[i].games[j].d_avl[k].yyyy=-1;
+				groundDB[i].games[j].d_avl[k].H=-1;
+				groundDB[i].games[j].d_avl[k].M=-1;
+				groundDB[i].games[j].d_avl[k].S=-1;
+				groundDB[i].games[j].d_sch[k].dd=-1;
+				groundDB[i].games[j].d_sch[k].mm=-1;
+				groundDB[i].games[j].d_sch[k].yyyy=-1;
+				groundDB[i].games[j].d_sch[k].H=-1;
+				groundDB[i].games[j].d_sch[k].M=-1;
+				groundDB[i].games[j].d_sch[k].S=-1;
 			}
 		}
-		database[i].sportName[0]='\0';
-		database[i].name[0]='\0';
-		database[i].city[0]='\0';
-		database[i].timing.dd=-1;
-		database[i].timing.mm=-1;
-		database[i].timing.yyyy=-1;
-		database[i].timing.H=-1;
-		database[i].timing.M=-1;
-		database[i].timing.S=-1;
 	}
-}		
-	
-void getGroundInfo()
-{	
-	char c[Nsize]
-	printf("Enter city name : ");
-	scanf("%s",c);
+}
+
+void getGroundInfo(char c[])			//get grounds in the city with the sports it can hold
+{
+	int i,j;
 	for(i=0; groundDB[i].name[0]!='\0' && i<Gsize; i++)
 	{
-		if()
+		if(strcmp(c,groundDB[i].city)==0)
+		{
+			for(j=0; groundDB[i].games[i].name[0]!='\0'; j++)
+			{
+				printf("%s\t\t%s",groundDB[i].name,groundDB[i].games[j].name);
+			}
+		}
+	}
+}
 
-
+void addSport(char gName[], char city[], char spName[])		//add sports the ground can hold
+{
+	int i=0;
+	int lo=i;
+	int hi=no_of_ground();
+	int flag=0;
+	while(lo<hi && flag==0)
+	{
+			mid=(ho+lo)/2;
+			if(strcmp(groundDB[mid].name,gName)==0)
+			{
+				ans=mid;
+				flag=1;
+			}
+			else if(strcmp(groundDB[mid].name,gName)>0)
+			{
+				lo=mid+1;
+			}
+			else if(strcmp(groundDB[mid].name,gName)<0)
+			{
+				hi=mid-1;
+			}
+	}
+}
